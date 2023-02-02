@@ -111,3 +111,13 @@ function subject(x) {
         return "타입에러";
     }
 }
+var 동물;
+var 동물객체 = { name: "kim", age: 20 };
+// const 변수는 등호로 재할당만 막을 수 있음
+// const로 담은 object 수정은 자유롭게 가능하다 but ts 쓰면 수정 막을 수 있음
+var 출생지역 = { region: "seoul" };
+출생지역.region = "busan";
+var 여친 = {
+    name: "엠버",
+};
+var position = { x: 10, y: 20 };
