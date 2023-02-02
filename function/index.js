@@ -47,4 +47,67 @@ function isMarried(money, haveHome, charm) {
         return "결혼가능";
     }
 }
+// -------------------------------------------------- //
+// 타입 확정하기: Narrowing & Assertion
 // union 타입의 경우 미리 타입 검사가 필요
+// Type Narrowing
+// Type이 하나로 확정되지 않았을 경우
+// 대표적인 Narrowing 방법: typeof 연산자
+// 타입이 불확실할 경우 if문 등으로 narrowing을 해 주어야 함
+function 내함수(x) {
+    if (typeof x === "string") {
+        return x + "1";
+    }
+    else {
+        return x + 1;
+    }
+}
+내함수(123);
+function 내함수2(x) {
+    var array = [];
+    // array[0] = x; 타입이 number | string이라 에러
+    if (typeof x === "number") {
+        array[0] = x;
+    }
+}
+내함수2(123);
+// Narrowing으로 판정해 주는 문법들
+// 현재 변수의 타입이 무엇인지 특정지을 수 있다면 인정해 줌
+// typeof 변수
+// 속성명 in 오브젝트자료
+// 인스턴스 instanceof 부모
+// Type Assertion(타입 덮어쓰기)
+function 내함수3(x) {
+    var array = [];
+    array[0] = x;
+}
+내함수3(123);
+function 변환기(data) {
+    return JSON.parse(data);
+}
+var jake = 변환기('{"name":"kim"}');
+// Q1. 클리닝 함수 만들기
+function cleaning(a) {
+    var array = [];
+    a.forEach(function (v) {
+        if (typeof v === "string") {
+            array.push(parseInt(v));
+        }
+        else {
+            array.push(v);
+        }
+    });
+    return array;
+}
+// Q2. 같은 함수 만들어 보기
+function subject(x) {
+    if (typeof x.subject === "string") {
+        return x.subject;
+    }
+    else if (typeof Array.isArray(x.subject)) {
+        return x.subject[x.subject.length - 1];
+    }
+    else {
+        return "타입에러";
+    }
+}

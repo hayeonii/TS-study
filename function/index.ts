@@ -62,4 +62,89 @@ function isMarried(
     return "결혼가능";
   }
 }
+
+// -------------------------------------------------- //
+
+// 타입 확정하기: Narrowing & Assertion
 // union 타입의 경우 미리 타입 검사가 필요
+
+// Type Narrowing
+// Type이 하나로 확정되지 않았을 경우
+// 대표적인 Narrowing 방법: typeof 연산자
+// 타입이 불확실할 경우 if문 등으로 narrowing을 해 주어야 함
+function 내함수(x: number | string) {
+  if (typeof x === "string") {
+    return x + "1";
+  } else {
+    return x + 1;
+  }
+}
+
+내함수(123);
+
+function 내함수2(x: number | string) {
+  let array: number[] = [];
+  // array[0] = x; 타입이 number | string이라 에러
+
+  if (typeof x === "number") {
+    array[0] = x;
+  }
+}
+
+내함수2(123);
+
+// Narrowing으로 판정해 주는 문법들
+// 현재 변수의 타입이 무엇인지 특정지을 수 있다면 인정해 줌
+// typeof 변수
+// 속성명 in 오브젝트자료
+// 인스턴스 instanceof 부모
+
+// Type Assertion(타입 덮어쓰기)
+function 내함수3(x: number | string) {
+  let array: number[] = [];
+  array[0] = x as number;
+}
+
+내함수3(123);
+
+// assertion 문법의 용도
+// 1. narrowing - 타입을 a에서 b로 변경하는 용도는 아님
+// 2. 무슨 타입이 들어올 지 100% 확실할 때 쓴다 - 그래서 굳이 쓸 필요 없음
+// 3. 실제로 타입을 바꿔주는 것은 아니다
+
+// as를 유용하게 쓸 수 있는 경우
+// 타입을 강제로 부여하는 변환기 함수를 만들 때
+type Person = {
+  name: string;
+};
+function 변환기<T>(data: string): T {
+  return JSON.parse(data) as T;
+}
+const jake = 변환기<Person>('{"name":"kim"}');
+
+// Q1. 클리닝 함수 만들기
+
+function cleaning(a: (string | number)[]) {
+  let array: number[] = [];
+
+  a.forEach((v) => {
+    if (typeof v === "string") {
+      array.push(parseInt(v));
+    } else {
+      array.push(v);
+    }
+  });
+
+  return array;
+}
+
+// Q2. 같은 함수 만들어 보기
+function subject(x: { subject: string | string[] }) {
+  if (typeof x.subject === "string") {
+    return x.subject;
+  } else if (typeof Array.isArray(x.subject)) {
+    return x.subject[x.subject.length - 1];
+  } else {
+    return "타입에러";
+  }
+}
