@@ -121,3 +121,33 @@ var 여친 = {
     name: "엠버",
 };
 var position = { x: 10, y: 20 };
+var 함수a = function (a) {
+    return 10;
+}; // 함수 type alias 부착하려면 함수표현식을 써야됨
+var ABC = function (x, y) {
+    return x + y;
+};
+var 회원정보 = {
+    name: "kim",
+    plusOne: function (a) {
+        return a + 1;
+    },
+    changeName: function () {
+        console.log();
+    },
+};
+회원정보.plusOne(10); // 이렇게 호출해서 사용할 수 있음
+회원정보.changeName();
+var cutZero = function (x) {
+    var result = x.replace(/^0+/, "");
+    return result;
+};
+var removeDash = function (y) {
+    var result = y.replace(/-/g, "");
+    return parseInt(result);
+};
+// Q3. 함수에 함수 집어넣기
+function 퀴즈함수(number, 함수1, 함수2) {
+    var resultOne = 함수1(number);
+    return console.log(함수2(resultOne));
+}

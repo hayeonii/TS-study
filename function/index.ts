@@ -226,3 +226,64 @@ type Info = {
 
 type IsAdult = { isAdult: boolean };
 type User = Info & IsAdult;
+
+// -------------------------------------------------- //
+// 함수와 methods에 type alias 지정하는 법
+
+// type alias에 함수 type 저장해서 쓰는 법
+type 함수타입 = (a: string) => number; // 함수 타입 함수를 만들 때에는 무조건 화살표 함수 사용
+type NumOut = (x: number, y: number) => number; // 숫자 두 개를 파라미터로 입력, 숫자를 return
+
+let 함수a: 함수타입 = function (a) {
+  return 10;
+}; // 함수 type alias 부착하려면 함수표현식을 써야됨
+
+let ABC: NumOut = function (x, y) {
+  return x + y;
+};
+// 정리
+// 1. 함수타입은 () => {} 모양으로
+// 2. 함수표현식에만 type alias 사용 가능
+
+// object 자료 안의 함수 타입 지정 (methods)
+// object 안의 함수 타입 지정은 어떻게 할 수 있을까?
+
+type Member = {
+  name: string;
+  plusOne: (a: number) => number;
+  changeName: () => void;
+};
+
+let 회원정보 = {
+  name: "kim",
+  plusOne(a: number): number {
+    return a + 1;
+  },
+  changeName: () => {
+    console.log();
+  },
+};
+
+회원정보.plusOne(10); // 이렇게 호출해서 사용할 수 있음
+회원정보.changeName();
+
+// Q2. 함수2개를 만들어보고 타입까지 정의해 보기
+type CutType = (x: string) => string;
+
+let cutZero: CutType = function (x) {
+  let result = x.replace(/^0+/, "");
+  return result;
+};
+
+type RemoveType = (y: string) => number;
+
+let removeDash: RemoveType = function (y) {
+  let result = y.replace(/-/g, "");
+  return parseInt(result);
+};
+
+// Q3. 함수에 함수 집어넣기
+function 퀴즈함수(number: string, 함수1: CutType, 함수2: RemoveType) {
+  let resultOne = 함수1(number);
+  return console.log(함수2(resultOne));
+}
